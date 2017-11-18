@@ -82,6 +82,19 @@ class todos extends collection
 {
 protected static $modelName = 'todo';
 }
-$records = accounts::findOne(2);
-print_r($records);
+ $records = accounts::findAll();
+ print_r($records);
+ $record = todos::findOne(2);
+ print_r($record);
+
+
+
+
+
+
+
+
+
+
+
 ?>
