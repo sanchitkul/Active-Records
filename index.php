@@ -88,7 +88,8 @@ protected static $modelName = 'todo';
  print_r($records);
  $record = todos::findOne(2);
  print_r($record);
-
+ $records = todos::deleteRecord(2);
+ print_r($record);
 
 
 
