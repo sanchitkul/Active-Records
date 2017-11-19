@@ -1,8 +1,6 @@
 <?php
-
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
-
 define('DATABASE', 'ssk98');
 define('USERNAME', 'ssk98');
 define('PASSWORD', 'shaffer58');
@@ -32,7 +30,8 @@ new dbConnection();
 return self::$connection;
 }
 }
-class collection {
+abstract class collection 
+{
 protected $html;
 static public function newdb() 
 {
@@ -73,6 +72,7 @@ $statement = $db->prepare($sql);
 $statement->execute();
 echo 'done';
 }
+
 }
 class accounts extends collection 
 {
@@ -82,14 +82,72 @@ class todos extends collection
 {
 protected static $modelName = 'todo';
 }
- $records = accounts::findAll();
- print_r($records);
- $records = todos::findAll();
- print_r($records);
- $record = todos::findOne(2);
- print_r($record);
- $records = todos::deleteRecord(2);
- print_r($record);
+
+
+class model 
+{
+protected $tableName;
+protected static $statement;
+public function save()
+{
+$array = get_object_vars($this);
+unset($array["tableName"]);
+if ($this->id == '') 
+{
+echo "Insert Record </br>";
+$sql = $this->insert();
+}
+else 
+{
+$sql = $this->update();
+}
+$db = dbConnection::getConnection();
+self::$statement = $db->prepare($sql);
+foreach ($array as $key=>$value)
+{
+if ($this->id == '')
+{
+self::$statement->bindValue(":$key","$value");
+}
+else {
+if ($value != '' && $key != "id")
+{
+self::$statement->bindValue(":$key","$value");
+}
+}
+}
+self::$statement->execute();
+$lastId = $db->lastInsertId();
+return ($lastId);
+}
+public function insert()
+{
+$array = get_object_vars($this);
+unset($array["tableName"]);
+$columnString = implode(',', array_keys($array));
+$valueString = ":".implode(',:', array_keys($array));
+$sql = "INSERT INTO $this->tableName (" . $columnString . ") VALUES (" . $valueString . ")";
+print_r($sql);
+return $sql;		
+}	
+public function update()
+{
+$array = get_object_vars($this);
+unset($array["tableName"]);
+$sql = "UPDATE ". $this->tableName ." SET";
+foreach ($array as $key => $value){
+if ($value != "" & $key != "id")
+{
+$sql.= " " .$key ." = :$key ,";
+//$values[":$key"] = $value;
+}
+} 
+$sql = substr($sql,0,-1);
+$sql.= " WHERE id = " .$this->id;
+echo $sql;
+return $sql; 
+}
+}
 
 
 
@@ -97,6 +155,16 @@ protected static $modelName = 'todo';
 
 
 
+
+
+$records = accounts::findAll();
+print_r($records);
+$records = todos::findAll();
+print_r($records);
+$record = todos::findOne(2);
+print_r($record);
+$records = todos::deleteRecord(2);
+print_r($record);
 
 
 
