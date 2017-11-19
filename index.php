@@ -14,7 +14,7 @@ try
 {
 self::$connection = new PDO('mysql:host=' . CONNECTION . ';dbname=' . DATABASE, USERNAME, PASSWORD);
 self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-echo 'Connected successfully <br>';
+echo ' <br>';
 } 
 catch (PDOException $e) 
 {
@@ -179,6 +179,64 @@ public function __construct()
 }
 
 
+class tableClass
+{
+private static $table;
+public static function checkRecord ($rec)
+{
+if(count($rec) == 0)
+{
+$printtb = "Records not found</br>";
+}
+else 
+{
+$printtb = self::printTable($rec);
+}
+return $printtb;
+}
+public static function printTable($rec)
+{
+self::$table.= '<table>';
+self::$table.= '<tr>';
+$headerFields = $rec[0];
+foreach ($headerFields as $key => $value) 
+{
+self::$table .= "<th>$key</th>";
+}
+self::$table.= '</tr>';
+foreach ($rec as $record)
+{
+self::$table.= '<tr>';
+foreach($record as $key => $value)
+{
+ self::$table.= "<td>$value</td>";
+}
+self::$table .= '</tr>';
+}
+self::$table .= '</table> <br>';
+return self::$table;
+}
+}
+echo ('<h1>SELECT all records of Accounts Table</h1></br>');
+$record= accounts::findAll();
+$record = tableClass::checkRecord($record);
+echo ($record);
+/*$newRec = new account();
+$newRec->email="vkv@gmail.com";
+$newRec->fname="James";
+$newRec->lname="Bond";
+$newRec->phone='007';
+$newRec->birthday='01011955';
+$newRec->gender='male';
+$newRec->password='001';
+$newID = $newRec->save();
+echo " <br> <b> Inserted record into table</b> <br> ";
+$updateRec = new account();
+$updateRec->id = $newID;
+$updateRec->email="bond007@gmail.com";
+$updateId = $updateRec->save();
+echo " <br> <b> Updated record into table </b> <br> ";
+*/
 
 
 
@@ -186,14 +244,8 @@ public function __construct()
 
 
 
-$records = accounts::findAll();
-print_r($records);
-$records = todos::findAll();
-print_r($records);
-$record = todos::findOne(2);
-print_r($record);
-$records = todos::deleteRecord(2);
-print_r($record);
+
+
 
 
 
