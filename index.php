@@ -248,9 +248,29 @@ $new = $newRecord->save();
 
 $updateRecord = new account();
 $updateRecord->id = $new;
-$updateRecord->email="bond007@gmail.com";
+$updateRecord->email="srk@gmail.com";
 $updateId = $updateRecord->save();
 echo ($record);
+
+$newRecord = new todos();
+$newRecord->email="abc@gmail.com";
+$newRecord->fname="Hritik";
+$newRecord->lname="Roshan";
+$newRecord->phone='555';
+$newRecord->birthday='07221992';
+$newRecord->gender='Male';
+$newRecord->password='000';
+$new = $newRecord->save();
+
+$updateRecord = new account();
+$updateRecord->id = $new;
+$updateRecord->email="Hritik@gmail.com";
+$updateId = $updateRecord->save();
+echo ($record);
+
+
+
+
 
 
 
