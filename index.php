@@ -49,6 +49,8 @@ $class = static::$modelName;
 $statement->setFetchMode(PDO::FETCH_CLASS, $class);
 $recordsSet =  $statement->fetchAll();
 return $recordsSet;
+echo ('<h1>SELECT all records of Accounts Table</h1></br>');
+echo self::$sql;
 }
 static public function findOne($id) 
 {
@@ -61,6 +63,7 @@ $class = static::$modelName;
 $statement->setFetchMode(PDO::FETCH_CLASS, $class);
 $recordsSet =  $statement->fetchAll();
 return $recordsSet;
+echo ('<h1>SELECT all records of Accounts Table</h1></br>');
 }
 public static function deleteRecord($id)
 {
@@ -217,28 +220,15 @@ self::$table .= '</table> <br>';
 return self::$table;
 }
 }
-echo ('<h1>SELECT all records of Accounts Table</h1></br>');
-$record= accounts::findAll();
+echo '<h3>1.Select all records of Accounts Table</h3></br>';
+echo '<h3>2.Select all records of todos Table</h3></br>';
+
+$record = accounts::findAll();
 $record = tableClass::checkRecord($record);
+$record = todos::findAll();
+$record = tableClass::checkRecord($record);
+
 echo ($record);
-/*$newRec = new account();
-$newRec->email="vkv@gmail.com";
-$newRec->fname="James";
-$newRec->lname="Bond";
-$newRec->phone='007';
-$newRec->birthday='01011955';
-$newRec->gender='male';
-$newRec->password='001';
-$newID = $newRec->save();
-echo " <br> <b> Inserted record into table</b> <br> ";
-$updateRec = new account();
-$updateRec->id = $newID;
-$updateRec->email="bond007@gmail.com";
-$updateId = $updateRec->save();
-echo " <br> <b> Updated record into table </b> <br> ";
-*/
-
-
 
 
 
