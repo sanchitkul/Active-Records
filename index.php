@@ -222,12 +222,14 @@ return self::$table;
 }
 echo '<h3>1.Select all records of Accounts Table</h3></br>';
 echo '<h3>2.Select all records of todos Table</h3></br>';
+echo '<h3>3.Select one record from accounts table</h3></br>';
 
 $record = accounts::findAll();
 $record = tableClass::checkRecord($record);
 $record = todos::findAll();
 $record = tableClass::checkRecord($record);
-
+$record = accounts::findOne(10);
+$record = tableClass::checkRecord($record);
 echo ($record);
 
 
