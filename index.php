@@ -97,7 +97,7 @@ $array = get_object_vars($this);
 unset($array["tableName"]);
 if ($this->id == '') 
 {
-echo "Insert Record </br>";
+//echo "Insert Record </br>";
 $sql = $this->insert();
 }
 else 
@@ -130,7 +130,7 @@ unset($array["tableName"]);
 $columnString = implode(',', array_keys($array));
 $valueString = ":".implode(',:', array_keys($array));
 $sql = "INSERT INTO $this->tableName (" . $columnString . ") VALUES (" . $valueString . ")";
-print_r($sql);
+//print_r($sql);
 return $sql;		
 }	
 public function update()
@@ -147,7 +147,7 @@ $sql.= " " .$key ." = :$key ,";
 } 
 $sql = substr($sql,0,-1);
 $sql.= " WHERE id = " .$this->id;
-echo $sql;
+//echo $sql;
 return $sql; 
 }
 }
@@ -224,6 +224,8 @@ echo '<h3>1.Select all records of Accounts Table</h3></br>';
 echo '<h3>2.Select all records of todos Table</h3></br>';
 echo '<h3>3.Select one record from accounts table</h3></br>';
 echo '<h3>4.Select one record from todos table</h3></br>';
+echo "<h3>Inserted record into Accounts table</h3> </br> ";
+echo "<h3>Updated record into Accounts table </h3> </br> ";
 
 $record = accounts::findAll();
 $record = tableClass::checkRecord($record);
@@ -233,7 +235,26 @@ $record = accounts::findOne(10);
 $record = tableClass::checkRecord($record);
 $record = todos::findOne(3);
 $record = tableClass::checkRecord($record);
+$record = ($record);
+$newRecord = new account();
+$newRecord->email="xyz@gmail.com";
+$newRecord->fname="Shah Rukh";
+$newRecord->lname="Khan";
+$newRecord->phone='555';
+$newRecord->birthday='07231992';
+$newRecord->gender='Male';
+$newRecord->password='123';
+$new = $newRecord->save();
+
+$updateRecord = new account();
+$updateRecord->id = $new;
+$updateRecord->email="bond007@gmail.com";
+$updateId = $updateRecord->save();
 echo ($record);
+
+
+
+
 
 
 
