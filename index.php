@@ -65,7 +65,7 @@ $recordsSet =  $statement->fetchAll();
 return $recordsSet;
 echo ('<h1>SELECT all records of Accounts Table</h1></br>');
 }
-public static function deleteRecord($id)
+static public function deleteRecord($id)
 {
 $db = dbConnection::getConnection();
 $tableName = get_called_class();
@@ -150,6 +150,14 @@ $sql.= " WHERE id = " .$this->id;
 //echo $sql;
 return $sql; 
 }
+public function delete()
+{
+$array = get_object_vars($this);
+$sql = "DELETE FROM " . $this->tableName . " WHERE id = " . $this->id;
+$db = dbConnection::getConnection();
+self::$statement = $db->prepare($sql);
+self::$statement->execute();
+}
 }
 class account extends model 
 {
@@ -224,9 +232,11 @@ echo '<h3>1.Select all records of Accounts Table</h3></br>';
 echo '<h3>2.Select all records of todos Table</h3></br>';
 echo '<h3>3.Select one record from accounts table</h3></br>';
 echo '<h3>4.Select one record from todos table</h3></br>';
-echo "<h3>Inserted record into Accounts table</h3> </br> ";
-echo "<h3>Updated record into Accounts table </h3> </br> ";
-
+echo "<h3>5.Inserted record into Accounts table</h3> </br> ";
+echo "<h3>6.Updated record into Accounts table </h3> </br> ";
+echo "<h3>7.Insert and Updated record into todos table </h3> </br> ";
+echo "<h3>8.Id=2 from todos deleted </h3></br>";
+echo "<h3>9. Id=4 from accounts deleted </h3></br>";
 $record = accounts::findAll();
 $record = tableClass::checkRecord($record);
 $record = todos::findAll();
@@ -260,14 +270,27 @@ $newRecord->phone='555';
 $newRecord->birthday='07221992';
 $newRecord->gender='Male';
 $newRecord->password='000';
-$new = $newRecord->save();
+/*$new = $newRecord->save();
 
 $updateRecord = new account();
 $updateRecord->id = $new;
 $updateRecord->email="Hritik@gmail.com";
 $updateId = $updateRecord->save();
-echo ($record);
+*/
 
+$record= new todo();
+$record->id=2;
+$record->delete();
+$records = todos::findAll();
+
+
+$record = new account();
+$record->id=4;
+$record->delete();
+$record = todos::findAll();
+//$table = tableClass::printTable;
+
+//echo ($record);
 
 
 
